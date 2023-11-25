@@ -1,6 +1,58 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+import bottomVue from "./components/bottom.vue";
+import {useI18n} from 'vue-i18n';
+import { reactive, watch,ref } from "vue";
+import {useRoute} from "vue-router";
+
+const i18n = useI18n();
+
+function changelang(){
+  i18n.locale.value=='zh'?i18n.locale.value='en':i18n.locale.value='zh'
+}
+
+let route = useRoute();
+
+let routerIndex = ref(0);
+
+watch(()=>route.meta,(val)=>{
+  routerIndex.value = val.index;
+})
+
+let tableDate = reactive([
+  {
+    path:'/new',
+    name:'meg.TsinghuaNews'
+  },
+  {
+    path:'/school',
+    name:'meg.SchoolOverview'
+  },
+  {
+    path:'/faculty',
+    name:'meg.FacultySetting'
+  },
+  {
+    path:'/education',
+    name:'meg.EducationTeaching'
+  },
+  {
+    path:'/research',
+    name:'meg.ScientificResearch'
+  },
+  {
+    path:'/enrollment',
+    name:'meg.EnrollmentEmployment'
+  },
+  {
+    path:'/exchange',
+    name:'meg.CooperationExchange'
+  },
+  {
+    path:'/enter',
+    name:'meg.EnterUniversity'
+  }
+])
 </script>
 
 <template>
@@ -8,28 +60,36 @@ import HelloWorld from "./components/HelloWorld.vue";
     <div class="app">
       <img src="./assets/logo.png" alt="" />
       <nav>
-        <RouterLink to="/new">清华新闻</RouterLink>
-        <RouterLink to="/school">学校概括</RouterLink>
-        <RouterLink to="/faculty">院系设置</RouterLink>
-        <RouterLink to="/education">教育教学</RouterLink>
-        <RouterLink to="/research">科学研究</RouterLink>
-        <RouterLink to="/enrollment">招生就业</RouterLink>
-        <RouterLink to="/exchange">合作交流</RouterLink>
-        <RouterLink to="/enter">走进清华</RouterLink>
+        <RouterLink v-for="item,index in tableDate" :key="index" :to="item.path" :style="{color:routerIndex === index ? '#e2ca5b' :'white'}">{{$t(item.name)}}</RouterLink>
       </nav>
     </div>
+    <button class="changelang" @click="changelang">切换语言</button>
   </header>
   <RouterView />
+  <bottomVue></bottomVue>
 </template>
 
-<style scoped>
+<style lang="less">
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 header {
   width: 100%;
   height: 150px;
-  background: url('./assets/head-bg.png') center repeat-x;
+  background: url('./assets/head-bg.png') center center / 100% 100% repeat-x;
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 99;
+
+  .changelang{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 100;
+  }
 }
 .app{
   width: 100%;

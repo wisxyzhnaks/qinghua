@@ -7,47 +7,74 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      component: indexView
+      component: indexView,
+      meta:{
+        index:-1
+      }
     },
     {
       path: '/new',
       name: 'new',
-      component: () => import('../views/newView.vue')
+      component: () => import('../views/newView.vue'),
+      meta:{
+        index:0
+      }
     },
     {
       path: '/school',
       name: 'school',
-      component: () => import('../views/schoolView.vue')
+      component: () => import('../views/schoolView.vue'),
+      meta:{
+        index:1
+      }
     },
     {
       path: '/faculty',
       name: 'faculty',
-      component: () => import('../views/facultyView.vue')
+      component: () => import('../views/facultyView.vue'),
+      meta:{
+        index:2
+      }
     },
     {
       path: '/education',
       name: 'education',
-      component: () => import('../views/educationView.vue')
+      component: () => import('../views/educationView.vue'),
+      meta:{
+        index:3
+      }
     },
     {
       path: '/research',
       name: 'research',
-      component: () => import('../views/researchView.vue')
+      component: () => import('../views/researchView.vue'),
+      meta:{
+        index:4
+      }
     },
     {
       path: '/enrollment',
       name: 'enrollment',
-      component: () => import('../views/enrollmentView.vue')
+      component: () => import('../views/enrollmentView.vue'),
+      meta:{
+        index:5
+      }
     },
     {
       path: '/exchange',
       name: 'exchange',
-      component: () => import('../views/exchangeView.vue')
+      component: () => import('../views/exchangeView.vue'),
+      meta:{
+        index:6
+      }
     },
     {
       path: '/enter',
       name: 'enter',
-      component: () => import('../views/enterView.vue')
+      component: () => import('../views/enterView.vue'),
+      meta:{
+        index:7
+      }
     }
   ]
 })
