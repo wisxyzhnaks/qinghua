@@ -85,7 +85,7 @@
 
 </script>
   
-<style scoped>
+<style scoped lang="less">
 .pagetitle {
   width: 100%;
   height: 75vh;

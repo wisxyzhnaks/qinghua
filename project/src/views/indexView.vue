@@ -360,7 +360,7 @@ import 'swiper/css/pagination';
 
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .home-banner {
   width: 100%;
   height: 100vh;
