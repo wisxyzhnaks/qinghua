@@ -344,7 +344,6 @@
 
   .card {
     width: 25%;
-
     .title {
       width: 100%;
       height: 42%;
@@ -404,7 +403,7 @@
         cursor: pointer;
         background: url(../assets/education/arrow.png) no-repeat 80% center;
         div{
-          width: 60%;
+          width: 75%;
           padding-left:35px;
           color:#666;
           transition: all .5s ease;

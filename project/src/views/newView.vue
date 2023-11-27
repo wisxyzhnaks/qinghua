@@ -1533,7 +1533,7 @@ function checks(index) {
     .swiper{ 
       width: 200px;
       height: 100px;
-
+      margin: 0;
       .el-carousel__item img {
         display: block;
         width: 100%;
