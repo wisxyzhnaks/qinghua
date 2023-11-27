@@ -61,7 +61,7 @@ let newobj = reactive(objKeysSort(obj))
 // 字母从大到小
 // var newKey = reactive(Object.keys(obj).sort().reverse());
 function smooth(index){
-    let temp = document.querySelector('#'+ index +'').offsetTop
+    let temp = document.querySelector('#'+ index +'').offsetTop - 200
     window.scrollTo({
         top:temp,
         behavior:'smooth'

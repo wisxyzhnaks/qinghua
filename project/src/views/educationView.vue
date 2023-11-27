@@ -431,6 +431,7 @@
   width:100%;
   height:100vh;
   padding: 100px 0;
+  padding-bottom:10px;
   .title{
     width:70%;
     margin: 0 auto;
@@ -450,7 +451,7 @@
     
   }
   main{
-    width:90%;
+    width:80%;
     height:80%;
     margin: 20px auto;
     display: flex;
