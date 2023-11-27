@@ -140,7 +140,7 @@
       </ul>
     </div>
     <div class="wal7">
-      <img src="	https://www.tsinghua.edu.cn/new/image/logo218.png" alt="" />
+      <img src="https://www.tsinghua.edu.cn/new/image/logo218.png" alt="" />
       <div class="swiper">
         <el-carousel :interval="2000" type="card" :autoplay="true" height="120px" indicator-position="none">
           <el-carousel-item v-for="item in nineDate" :key="item">

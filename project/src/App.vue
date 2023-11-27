@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from "vue-router";
 import bottomVue from "./components/bottom.vue";
 import {useI18n} from 'vue-i18n';
-import { reactive, watch,ref } from "vue";
+import { reactive, watch,ref,getCurrentInstance} from "vue";
 import {useRoute} from "vue-router";
 
 const i18n = useI18n();
@@ -53,12 +53,17 @@ let tableDate = reactive([
     name:'meg.EnterUniversity'
   }
 ])
+
+let that = getCurrentInstance().appContext.config.globalProperties;
+function toindex(){
+  that.$router.push('/')
+}
 </script>
 
 <template>
   <header>
     <div class="app">
-      <img src="./assets/logo.png" alt="" />
+      <img src="./assets/logo.png" alt="" @click="toindex" />
       <nav>
         <RouterLink v-for="item,index in tableDate" :key="index" :to="item.path" :style="{color:routerIndex === index ? '#e2ca5b' :'white'}">{{$t(item.name)}}</RouterLink>
       </nav>

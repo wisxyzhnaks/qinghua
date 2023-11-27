@@ -164,7 +164,7 @@
         <div>在线教育</div>
         <div>终身教育</div>
       </div>
-      <video src="../assets/508393.mp4" controls></video>
+      <video src="http://47.109.51.95:3000/video/qinghua.mp4" controls></video>
     </div>
     <div class="title">
       <div class="left">
@@ -445,7 +445,7 @@ import 'swiper/css/pagination';
     height: 150px;
     position: absolute;
     top: calc(100% - 75px);
-    z-index:99;
+    z-index:50;
     .searchbox {
       width: 80%;
       height: 150px;
@@ -501,7 +501,7 @@ import 'swiper/css/pagination';
 
   main {
     width: 80%;
-    height: 90%;
+    height: 110.5%;
     padding: 5% 0;
     display: flex;
     justify-content: space-between;
@@ -624,7 +624,7 @@ import 'swiper/css/pagination';
         left: 5%;
         position: absolute;
         padding: 20px 0;
-        bottom: 0;
+        bottom: 20px;
         display: flex;
         justify-content: space-between;
 
