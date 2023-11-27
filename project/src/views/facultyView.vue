@@ -116,7 +116,7 @@ let that = getCurrentInstance().appContext.config.globalProperties;
         border:15px solid;
         border-color: #791cb5 transparent transparent transparent;
         position: absolute;
-        top:40px;
+        top:39px;
         left:calc(50% - 15px);
       }
     }

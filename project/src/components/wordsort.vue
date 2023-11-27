@@ -1,6 +1,6 @@
 <template>
     <ul class="push">
-        <li v-for="item, index in newobj"><a :href="'#' + index">{{ index }}</a></li>
+        <li v-for="item, index in newobj" @click="smooth(index)">{{ index }}</li>
     </ul>
     <main>
         <div class="outer-item" v-for="title, index in newobj" :id="index">
@@ -60,7 +60,13 @@ let newobj = reactive(objKeysSort(obj))
 // Object {ace: 5, age: 8, name: "zhangsan", nbme: "lisi"};// 执行结果
 // 字母从大到小
 // var newKey = reactive(Object.keys(obj).sort().reverse());
-
+function smooth(index){
+    let temp = document.querySelector('#'+ index +'').offsetTop
+    window.scrollTo({
+        top:temp,
+        behavior:'smooth'
+    })
+}
 </script>
 <style scoped lang="less">
 ul {
@@ -73,8 +79,6 @@ ul {
         width: 50px;
         background: #f2f3f9;
         margin-right: 10px;
-
-        a {
             display: block;
             height: 100%;
             width: 100%;
@@ -82,8 +86,7 @@ ul {
             font-size: 22.32px;
             color: #757575;
             text-align: center;
-        }
-
+            cursor: pointer;
     }
 }
 

@@ -816,10 +816,12 @@ import 'swiper/css/pagination';
     }
 
     .tips {
+       width:100%;
       li {
+        box-sizing: content-box;
         font-size: 15.88px;
         font-weight: 700;
-        padding: 20px;
+        padding: 20px 0;
         padding-right: 50px;
         border-bottom: 1px solid #ccc;
         transition: all .2s linear;
@@ -834,7 +836,6 @@ import 'swiper/css/pagination';
         position: relative;
         border: 0;
         z-index: 22;
-        ;
         border-left: 4px solid #6510ad;
         color: #6510ad;
       }
@@ -965,7 +966,7 @@ import 'swiper/css/pagination';
 
 .medium {
   width: 100%;
-  height: 130vh;
+  height: 170vh;
   background: url(https://www.tsinghua.edu.cn/image/index-flow.jpg) center no-repeat;
   position: relative;
   padding-top: 40vh;
@@ -1054,7 +1055,7 @@ import 'swiper/css/pagination';
     width: 96%;
     display: flex;
     flex-wrap: wrap;
-    margin: 0 auto;
+    margin: 20px auto;
 
     .card {
       width: 350px;

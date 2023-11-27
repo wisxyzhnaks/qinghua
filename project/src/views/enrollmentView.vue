@@ -13,15 +13,15 @@
       </div>
       <ul>
         <li>
-          <div class="num">123123</div>
+          <div class="num">16320</div>
           <div class="info">本科生</div>
         </li>
         <li>
-          <div class="num">123132</div>
+          <div class="num">22423</div>
           <div class="info">硕士生</div>
         </li>
         <li>
-          <div class="num">123123</div>
+          <div class="num">20527</div>
           <div class="info">博士生</div>
         </li>
       </ul>
@@ -233,6 +233,7 @@
       .item{
         width:calc(100% - 60px);
         position: absolute;
+        padding-bottom: 10px;
         top:75%;
         left:30px;
         height:50px;
