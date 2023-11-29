@@ -12,18 +12,11 @@
         <span>在学学生人数</span>
       </div>
       <ul>
-        <li>
-          <div class="num">16320</div>
-          <div class="info">本科生</div>
+        <li v-for="item in arr">
+          <div class="num">{{item.count}}</div>
+          <div class="info">{{item.education}}</div>
         </li>
-        <li>
-          <div class="num">22423</div>
-          <div class="info">硕士生</div>
-        </li>
-        <li>
-          <div class="num">20527</div>
-          <div class="info">博士生</div>
-        </li>
+        
       </ul>
     </div>
     <div class="bottom">
@@ -82,7 +75,13 @@
 </template>
   
 <script setup>
-
+import { getCurrentInstance, ref } from 'vue'
+let arr = ref([])
+let that = getCurrentInstance().appContext.config.globalProperties;
+that.$http.getnum().then(res=>{
+  arr.value =[...res] 
+  console.log(arr);
+})
 </script>
   
 <style scoped lang="less">

@@ -239,7 +239,7 @@ let timer = setInterval(() => {
     }, 1000)
     setTimeout(() => {
       isnotswiper.value = false
-    }, 1001)
+    }, 1100)
   }
 
 }, 5000)
