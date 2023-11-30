@@ -5,8 +5,27 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('../views/login.vue')
+      name: 'index',
+      component: () => import('../views/index.vue'),
+      meta:{
+        name:''
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/login.vue'),
+      meta:{
+        name:''
+      }
+    },
+    {
+      path: '/banner',
+      name: 'banner',
+      component: () => import('../views/banner.vue'),
+      meta:{
+        name:'轮播图'
+      }
     },
   ]
 })
