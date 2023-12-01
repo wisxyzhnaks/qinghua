@@ -30,8 +30,10 @@
           <nav class="nav">
               <ul class="navleft">
                   <li><i class="el-icon-user-solid"></i>欢迎{{ token }}</li>
-                  <li @click="exit"><i class="el-icon-refresh-left"></i>退出</li>
+                  <li @click="exit"><i class="el-icon-refresh-left"></i>退出</li> 
+                  
               </ul>
+              <div id="addnews" @click="openaddnews">添加新闻</div>
           </nav>
           <nav class="path">
               <i class="el-icon-s-home"></i>
@@ -41,29 +43,48 @@
               </el-breadcrumb>
           </nav>
           <main>
-              <RouterView></RouterView>
+              <RouterView v-if="isRouterActive"></RouterView>
           </main>
-
+          <addnews v-if="isshowadd"></addnews>
       </section>
+      <div class="changes" v-if="counterStore.flags">
+        <changeNew></changeNew>
+      </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
+import addnews from './components/addnews.vue'
+import changeNew from './components/changeNew.vue'
 import {
   Document,
   Menu as IconMenu,
   Location,
   Setting,
 } from '@element-plus/icons-vue'
-import { ref,watch } from 'vue'
+import { ref,watch,provide,nextTick } from 'vue'
 import { getCurrentInstance, reactive } from 'vue'
 import {useRouter} from 'vue-router'
+import {useCounterStore} from '@/stores/counter'
+let counterStore = useCounterStore();
 let that = getCurrentInstance().appContext.config.globalProperties;
 let token = ref(window.sessionStorage.getItem('username'))
 let key = window.sessionStorage.getItem('super')
-
 let router = useRouter();
 let names = ref('');
 let indexs = ref('0');
+let isshowadd = ref(false)
+const isRouterActive = ref(true)
+
+function openaddnews(){
+  isshowadd.value = !isshowadd.value
+}
+
+provide('reload',()=>{
+  isRouterActive.value = false
+  nextTick(()=>{
+    isRouterActive.value = true
+  })
+})
 
 watch(() => {
   watch(
@@ -82,7 +103,7 @@ function exit() {
 }
 
 </script>
-<style>
+<style lang="less">
 *{
   margin: 0;
   padding: 0;
@@ -101,6 +122,7 @@ main {
   position: absolute;
   top: 75px;
   left: 0
+  
 }
 
 .path {
@@ -118,7 +140,23 @@ main {
   text-indent: 0.5em;
   padding: 0;
 }
-
+#addnews{
+  background: #fff;
+  padding:5px 10px;
+  height: 20;
+  width:100px;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 20px;
+  margin-left: 40px;
+  color: #999;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+#addnews:hover{
+  background-color: #F3DCD4;
+}
 .navleft>li {
   padding: 0 15px;
   border-left: 1px solid #333;
@@ -142,6 +180,8 @@ main {
   width: 100%;
   height: 40px;
   background: #2e363f;
+  display: flex;
+  align-items: center;
 }
 
 section {
@@ -166,6 +206,16 @@ section {
   height: 100vh;
   display: flex;
   overflow: hidden;
+
+  .changes{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 500;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,.5);
+  }
 }
 
 aside {

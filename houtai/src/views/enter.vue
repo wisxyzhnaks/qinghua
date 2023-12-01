@@ -19,27 +19,90 @@
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
               >修改</el-button
             >
-            <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
           </template>
         </el-table-column>
       </el-table>
       <el-pagination @current-change="handleChange" background :default-page-size="pages" layout="prev, pager, next" :total="all" />
     </div>
+    <!-- 修改数据 -->
+    <el-dialog v-model="dialogFormVisible" title="修改信息">
+    <el-form :model="form">
+      <el-form-item label="id" :label-width="formLabelWidth">
+        <el-input v-model="form.id" autocomplete="off" disabled />
+      </el-form-item>
+      <el-form-item label="名称" :label-width="formLabelWidth">
+        <el-input v-model="form.context" autocomplete="off" disabled />
+      </el-form-item>
+      <el-form-item label="图片" :label-width="formLabelWidth">
+        <img :src="form.imgpath" alt="">
+      </el-form-item>
+      <el-form-item label="数量" :label-width="formLabelWidth">
+        <el-input v-model="form.number" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="单位" :label-width="formLabelWidth">
+        <el-input v-model="form.unit" autocomplete="off" disabled />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="changeNum">
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-
+import { onMounted, reactive,getCurrentInstance,ref,inject } from "vue";
+import {useCounterStore} from '@/stores/counter'
+import { ElMessage, ElMessageBox } from 'element-plus'
+let counterStore = useCounterStore();
+const reload = inject("reload");
 const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
+  dialogFormVisible.value = true;
+  console.log(row)
+  form.value = row;
 }
-const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
+//修改
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
+
+const form = ref({
+  id:'',
+  context: '',
+  imgpath:'',
+  number:'',
+  unit:''
+})
+
+function changeNum(){
+  ElMessageBox.confirm(
+    '确定要修改该条信息?',
+    '修改',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      that.$http.changeNums({id:form.value.id,number:form.value.number}).then(res=>{
+        ElMessage({
+        type: 'success',
+        message: '修改成功',
+        })
+        reload();
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消',
+      })
+    })
 }
 
 interface User {
@@ -110,10 +173,16 @@ function handleChange(val){
 onMounted(()=>{
   that.$http.getEtu().then(res=>{
     allList = res;
-    tableData.length = 0;
     all.value = res.length;
-    for(let i=res.length-1;i>res.length-pages.value-1;i--){
+    tableData.length = 0;
+    if(res.length < pages.value){
+      for(let i=res.length-1;i>=0;i--){
       tableData.push(res[i])
+      }
+    }else{
+      for(let i=res.length-1;i>res.length-pages.value-1;i--){
+      tableData.push(res[i])
+      }
     }
   })
 })
