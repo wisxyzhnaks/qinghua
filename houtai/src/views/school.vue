@@ -2,16 +2,19 @@
   <div class="box">
     <div class="list">
       <el-table :data="tableData" style="width: 100%" height="420">
-        <el-table-column fixed prop="id" label="轮播图序号" width="150" />
+        <el-table-column fixed prop="id" label="看点序号" width="120" />
 
-        <el-table-column prop="name" label="轮播图名称" width="350" />
-        <el-table-column label="轮播图图片" width="250">
+        <el-table-column prop="type" label="看点类型" width="180" />
+        <el-table-column prop="name" label="看点名称" width="350" />
+        <el-table-column prop="time" label="看点时间" width="250" />
+        <el-table-column prop="location" label="看点地址" width="250" />
+        <el-table-column label="看点图片" width="250">
           <template #default="scope">
             <img :src="scope.row.imgs" alt="">
           </template>
         </el-table-column>
 
-        <el-table-column label="轮播图设置" fixed="right" width="180">
+        <el-table-column label="看点设置" fixed="right" width="150">
           <template #default="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
               >修改</el-button
@@ -62,18 +65,27 @@ const tableRowClassName = ({
 const tableData: User[] = [
   {
     id: 1,
-    name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    type:"读书活动",
+    name: "一本“无人读过的书”——吴国盛导读哥白尼著作《天球运行论》",
+    time:"2023年12月2日 20:00",
+    location:"在线直播",
+    imgs: "https://www.tsinghua.edu.cn/__local/7/DD/0E/F5896154F65E20A6DD49ABF60A0_EA006A9A_717A6.jpg",
   },
   {
     id: 2,
-    name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    type:"读书活动",
+    name: "一本“无人读过的书”——吴国盛导读哥白尼著作《天球运行论》",
+    time:"2023年12月2日 20:00",
+    location:"在线直播",
+    imgs: "https://www.tsinghua.edu.cn/__local/7/DD/0E/F5896154F65E20A6DD49ABF60A0_EA006A9A_717A6.jpg",
   },
   {
     id: 3,
-    name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    type:"读书活动",
+    name: "一本“无人读过的书”——吴国盛导读哥白尼著作《天球运行论》",
+    time:"2023年12月2日 20:00",
+    location:"在线直播",
+    imgs: "https://www.tsinghua.edu.cn/__local/7/DD/0E/F5896154F65E20A6DD49ABF60A0_EA006A9A_717A6.jpg",
   },
 ];
 </script>

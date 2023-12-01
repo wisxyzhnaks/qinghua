@@ -14,11 +14,11 @@
                           <span>个人信息</span>
                         </template>
                         <el-menu-item index="/banner">轮播图</el-menu-item>
-                        <el-menu-item index="1-2">媒体清华</el-menu-item>
-                        <el-menu-item index="1-3">头条新闻</el-menu-item>
-                        <el-menu-item index="1-4">专题推荐</el-menu-item>
-                        <el-menu-item index="1-5">校园看点</el-menu-item>
-                        <el-menu-item index="1-6">入读清华</el-menu-item>
+                        <el-menu-item index="/medium">媒体清华</el-menu-item>
+                        <el-menu-item index="/new">头条新闻</el-menu-item>
+                        <el-menu-item index="/subject">专题推荐</el-menu-item>
+                        <el-menu-item index="/school">校园看点</el-menu-item>
+                        <el-menu-item index="/enter">入读清华</el-menu-item>
                       </el-sub-menu>
 
                   </el-menu>
@@ -30,8 +30,10 @@
           <nav class="nav">
               <ul class="navleft">
                   <li><i class="el-icon-user-solid"></i>欢迎{{ token }}</li>
-                  <li @click="exit"><i class="el-icon-refresh-left"></i>退出</li>
+                  <li @click="exit"><i class="el-icon-refresh-left"></i>退出</li> 
+                  
               </ul>
+              <div id="addnews" @click="openaddnews">添加新闻</div>
           </nav>
           <nav class="path">
               <i class="el-icon-s-home"></i>
@@ -41,13 +43,15 @@
               </el-breadcrumb>
           </nav>
           <main>
+            
               <RouterView></RouterView>
           </main>
-
+<addnews v-if="isshowadd"></addnews>
       </section>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
+import addnews from './components/addnews.vue'
 import {
   Document,
   Menu as IconMenu,
@@ -60,6 +64,11 @@ import {useRouter} from 'vue-router'
 let that = getCurrentInstance().appContext.config.globalProperties;
 let token = ref(window.sessionStorage.getItem('username'))
 let key = window.sessionStorage.getItem('super')
+
+let isshowadd = ref(false)
+function openaddnews(){
+  isshowadd.value = !isshowadd.value
+}
 
 let router = useRouter();
 let names = ref('');
@@ -118,7 +127,23 @@ main {
   text-indent: 0.5em;
   padding: 0;
 }
-
+#addnews{
+  background: #fff;
+  padding:5px 10px;
+  height: 20;
+  width:100px;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 20px;
+  margin-left: 40px;
+  color: #999;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+#addnews:hover{
+  background-color: #F3DCD4;
+}
 .navleft>li {
   padding: 0 15px;
   border-left: 1px solid #333;
@@ -142,6 +167,8 @@ main {
   width: 100%;
   height: 40px;
   background: #2e363f;
+  display: flex;
+  align-items: center;
 }
 
 section {

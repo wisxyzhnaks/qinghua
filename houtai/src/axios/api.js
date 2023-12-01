@@ -7,5 +7,15 @@ let getall = ()=>{
 let getnum = ()=>{
 	return requests.get('/getStudent')										
 }
-export default{ getall,getnum
+let uploadimg = (parms)=>{
+	return requests.post('/upLoad',parms)										
+}
+let getsort = ()=>{
+	return requests.get('/getType')										
+}
+//入读清华数据
+let getEtu = () =>{
+	return requests.get('/getAdmission')
+}
+export default{ getall,getnum,uploadimg,getsort,getEtu
 }
