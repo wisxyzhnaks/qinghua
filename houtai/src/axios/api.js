@@ -13,5 +13,15 @@ let uploadimg = (parms)=>{
 let getsort = ()=>{
 	return requests.get('/getType')										
 }
-export default{ getall,getnum,uploadimg,getsort
+//入读清华数据
+let getEtu = () =>{
+	return requests.get('/getAdmission')
+}
+let uploadnew = (parms) =>{
+	return requests.post('/addData',parms)
+}
+let login = (parms) =>{
+	return requests.post('/login',parms)
+}
+export default{ getall,getnum,uploadimg,getsort,getEtu,uploadnew,login
 }

@@ -2,16 +2,16 @@
   <div class="box">
     <div class="list">
       <el-table :data="tableData" style="width: 100%" height="420">
-        <el-table-column fixed prop="id" label="轮播图序号" width="150" />
+        <el-table-column fixed prop="id" label="媒体序号" width="150" />
 
-        <el-table-column prop="name" label="轮播图名称" width="350" />
-        <el-table-column label="轮播图图片" width="250">
+        <el-table-column prop="name" label="媒体名称" width="350" />
+        <el-table-column label="媒体图片" width="250">
           <template #default="scope">
             <img :src="scope.row.imgs" alt="">
           </template>
         </el-table-column>
 
-        <el-table-column label="轮播图设置" fixed="right" width="180">
+        <el-table-column label="媒体设置" fixed="right" width="180">
           <template #default="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
               >修改</el-button
@@ -63,17 +63,17 @@ const tableData: User[] = [
   {
     id: 1,
     name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    imgs: "https://www.tsinghua.edu.cn/image/weixintupian_20210412190357.jpg",
   },
   {
     id: 2,
     name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    imgs: "https://www.tsinghua.edu.cn/image/weixintupian_20210412190357.jpg",
   },
   {
     id: 3,
     name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    imgs: "https://www.tsinghua.edu.cn/image/weixintupian_20210412190357.jpg",
   },
 ];
 </script>
