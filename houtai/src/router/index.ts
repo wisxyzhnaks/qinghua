@@ -70,4 +70,15 @@ const router = createRouter({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  let token = window.sessionStorage.getItem('token')
+  console.log(to,from);
+  if (to.fullPath != '/login' && !token ) {
+    next('/login')
+  }else{
+    next()
+  }
+
+});
+
 export default router

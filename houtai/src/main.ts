@@ -8,8 +8,9 @@ import router from './router'
 import http from './axios/api.js'
 import * as echarts from 'echarts';
 
-const app = createApp(App)
 
+
+const app = createApp(App)
 app.config.globalProperties.$echarts = echarts;
 app.config.globalProperties.$http = http;
 app.use(createPinia())

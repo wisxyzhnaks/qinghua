@@ -4,13 +4,13 @@
       <el-table :data="tableData" style="width: 100%" height="420">
         <el-table-column fixed prop="id" label="看点序号" width="120" />
 
-        <el-table-column prop="type" label="看点类型" width="180" />
-        <el-table-column prop="name" label="看点名称" width="350" />
+        <el-table-column prop="class" label="看点类型" width="180" />
+        <el-table-column prop="title" label="看点名称" width="350" />
         <el-table-column prop="time" label="看点时间" width="250" />
-        <el-table-column prop="location" label="看点地址" width="250" />
+        <el-table-column prop="address" label="看点地址" width="250" />
         <el-table-column label="看点图片" width="250">
           <template #default="scope">
-            <img :src="scope.row.imgs" alt="">
+            <img :src="scope.row.imgpath" alt="">
           </template>
         </el-table-column>
 
@@ -28,17 +28,51 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background layout="prev, pager, next" :total="1000" />
+      <el-pagination @current-change="handleChange" background :default-page-size="pages" layout="prev, pager, next" :total="all" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, reactive,getCurrentInstance,ref,inject } from "vue";
+import {useCounterStore} from '@/stores/counter'
+import { ElMessage, ElMessageBox } from 'element-plus'
+let counterStore = useCounterStore();
+const reload = inject("reload");
+let that = getCurrentInstance().appContext.config.globalProperties;
+let all = ref(0);
+let pages = ref(5);
+let allList = reactive([]);
+
 const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
+  counterStore.list = row;
+  counterStore.flags = true;
 }
 const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
+  ElMessageBox.confirm(
+    '确定要删除该条新闻?',
+    '删除',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      that.$http.deleteNew({number: row.number}).then(res=>{
+        ElMessage({
+        type: 'success',
+        message: 'Delete completed',
+        })
+        reload();
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
 }
 
 interface User {
@@ -62,32 +96,67 @@ const tableRowClassName = ({
   return "";
 };
 
-const tableData: User[] = [
+const tableData: User[] = reactive([
   {
     id: 1,
-    type:"读书活动",
-    name: "一本“无人读过的书”——吴国盛导读哥白尼著作《天球运行论》",
-    time:"2023年12月2日 20:00",
-    location:"在线直播",
-    imgs: "https://www.tsinghua.edu.cn/__local/7/DD/0E/F5896154F65E20A6DD49ABF60A0_EA006A9A_717A6.jpg",
+    class:"展览",
+    time:"2023年11月1日–2024年2月29日",
+    address:"清华大学艺术博物馆一层展厅",
+    title: "乌拉圭总统拉卡列访问清华大学并演讲",
+    imgpath: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
   },
   {
     id: 2,
-    type:"读书活动",
-    name: "一本“无人读过的书”——吴国盛导读哥白尼著作《天球运行论》",
-    time:"2023年12月2日 20:00",
-    location:"在线直播",
-    imgs: "https://www.tsinghua.edu.cn/__local/7/DD/0E/F5896154F65E20A6DD49ABF60A0_EA006A9A_717A6.jpg",
+    class:"展览",
+    time:"2023年11月1日–2024年2月29日",
+    address:"清华大学艺术博物馆一层展厅",
+    title: "乌拉圭总统拉卡列访问清华大学并演讲",
+    imgpath: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
   },
   {
     id: 3,
-    type:"读书活动",
-    name: "一本“无人读过的书”——吴国盛导读哥白尼著作《天球运行论》",
-    time:"2023年12月2日 20:00",
-    location:"在线直播",
-    imgs: "https://www.tsinghua.edu.cn/__local/7/DD/0E/F5896154F65E20A6DD49ABF60A0_EA006A9A_717A6.jpg",
-  },
-];
+    class:"展览",
+    time:"2023年11月1日–2024年2月29日",
+    address:"清华大学艺术博物馆一层展厅",
+    title: "乌拉圭总统拉卡列访问清华大学并演讲",
+    imgpath: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+  }
+]);
+
+function handleChange(val){
+  tableData.length = 0;
+  if(Math.ceil(allList.length/pages.value) === val){
+    for(let i=allList.length - (pages.value * (val-1)) - 1;i>=0;i--){
+      tableData.push(allList[i])
+    }
+  }else{
+    for(let i=allList.length - (pages.value * (val-1)) - 1;i>allList.length - (pages.value * val)-1;i--){
+      tableData.push(allList[i])
+    }
+  }
+}
+
+onMounted(()=>{
+  that.$http.getAll({typeId:'校园看点'}).then(res=>{
+    res.forEach(item=>{
+      item.url = item.imgpath;
+      item.imgpath = `http://47.109.51.95:3000/${item.imgpath}`
+    })
+    allList = res;
+    all.value = res.length;
+    tableData.length = 0;
+    if(res.length < pages.value){
+      for(let i=res.length-1;i>=0;i--){
+      tableData.push(res[i])
+      }
+    }else{
+      for(let i=res.length-1;i>res.length-pages.value-1;i--){
+      tableData.push(res[i])
+      }
+    }
+    console.log(res);
+  })
+})
 </script>
 
 <style scoped lang="less">

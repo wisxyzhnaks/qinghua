@@ -4,10 +4,10 @@
       <el-table :data="tableData" style="width: 100%" height="420">
         <el-table-column fixed prop="id" label="轮播图序号" width="150" />
 
-        <el-table-column prop="name" label="轮播图名称" width="350" />
+        <el-table-column prop="title" label="轮播图名称" width="350" />
         <el-table-column label="轮播图图片" width="250">
           <template #default="scope">
-            <img :src="scope.row.imgs" alt="">
+            <img :src="scope.row.imgpath" alt="">
           </template>
         </el-table-column>
 
@@ -25,17 +25,52 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background layout="prev, pager, next" :total="1000" />
+      <el-pagination @current-change="handleChange" background :default-page-size="pages" layout="prev, pager, next" :total="all" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, reactive,getCurrentInstance,ref,inject } from "vue";
+import {useCounterStore} from '@/stores/counter'
+import { ElMessage, ElMessageBox } from 'element-plus'
+const reload = inject("reload");
+let counterStore = useCounterStore();
+let that = getCurrentInstance().appContext.config.globalProperties;
+let all = ref(0);
+let pages = ref(5);
+let allList = reactive([]);
+
 const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
+  counterStore.list = row;
+  counterStore.flags = true;
 }
+
 const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
+  ElMessageBox.confirm(
+    '确定要删除该条新闻?',
+    '删除',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      that.$http.deleteNew({number: row.number}).then(res=>{
+        ElMessage({
+        type: 'success',
+        message: 'Delete completed',
+        })
+        reload();
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
 }
 
 interface User {
@@ -59,23 +94,57 @@ const tableRowClassName = ({
   return "";
 };
 
-const tableData: User[] = [
+const tableData: User[] = reactive([
   {
     id: 1,
-    name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    title: "乌拉圭总统拉卡列访问清华大学并演讲",
+    imgpath: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
   },
   {
     id: 2,
-    name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    title: "乌拉圭总统拉卡列访问清华大学并演讲",
+    imgpath: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
   },
   {
     id: 3,
-    name: "乌拉圭总统拉卡列访问清华大学并演讲",
-    imgs: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
+    title: "乌拉圭总统拉卡列访问清华大学并演讲",
+    imgpath: "https://www.tsinghua.edu.cn/__local/6/44/99/67B1EAADCF66B4A128471B1C5D4_73AA1D9A_5BCF7.jpg",
   },
-];
+]);
+
+function handleChange(val){
+  tableData.length = 0;
+  if(Math.ceil(allList.length/pages.value) === val){
+    for(let i=allList.length - (pages.value * (val-1)) - 1;i>=0;i--){
+      tableData.push(allList[i])
+    }
+  }else{
+    for(let i=allList.length - (pages.value * (val-1)) - 1;i>allList.length - (pages.value * val)-1;i--){
+      tableData.push(allList[i])
+    }
+  }
+}
+
+onMounted(()=>{
+  that.$http.getAll({typeId:'大轮播图'}).then(res=>{
+    res.forEach(item=>{
+      item.url = item.imgpath;
+      item.imgpath = `http://47.109.51.95:3000/${item.imgpath}`;
+    })
+    allList = res;
+    all.value = res.length;
+    tableData.length = 0;
+    if(res.length < pages.value){
+      for(let i=res.length-1;i>=0;i--){
+      tableData.push(res[i])
+      }
+    }else{
+      for(let i=res.length-1;i>res.length-pages.value-1;i--){
+      tableData.push(res[i])
+      }
+    }
+  })
+})
 </script>
 
 <style scoped lang="less">
