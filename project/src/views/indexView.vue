@@ -2,7 +2,7 @@
   <div class="home-banner">
     <div class="swiper">
       <div class="item">
-        <img :src="'http://47.109.51.95:3000/' + item.img" v-for="item, index in obj.home_banner"
+        <img :src="'http://47.109.51.95:3000/' + item.imgpath" v-for="item, index in obj.home_banner"
           :class="{ showimg: index == swiperindex ? true : false }">
 
         <div class="title" v-for="item, index in obj.home_banner"
@@ -32,7 +32,7 @@
     <main>
       <div class="left">
         <div class="title">媒体清华 IN THE MEDIA</div>
-        <img :src="obj.medium_qinghua[0].imgpath" alt="">
+        <img :src="'http://47.109.51.95:3000/' + obj.medium_qinghua[0].imgpath" alt="">
         <div class="item" v-for="item in obj.medium_qinghua">{{ item.title }}</div>
       </div>
       <div class="mid">
@@ -75,8 +75,8 @@
         </div>
       </div>
       <div class="left">
-        <div class="title">媒体清华 IN THE MEDIA</div>
-        <img :src="obj.search_suggest[0].imgpath" alt="">
+        <div class="title">专题推荐 IN THE MEDIA</div>
+        <img :src="'http://47.109.51.95:3000/' + obj.search_suggest[0].imgpath" alt="">
         <div class="item" v-for="item in obj.search_suggest">{{ item.title }}</div>
       </div>
     </main>
@@ -198,12 +198,53 @@
 <script setup>
 //import { Autoplay, Navigation, Pagination, A11y } from 'swiper';
 // import { Swiper, SwiperSlide } from 'swiper/vue';
-import { getCurrentInstance, ref } from 'vue'
-let obj = ref({})
+import { getCurrentInstance, ref,reactive,onMounted } from 'vue'
 let that = getCurrentInstance().appContext.config.globalProperties;
+let obj = reactive({
+  home_banner:[],
+  medium_qinghua:[],
+  headLines:[],
+  search_suggest:[],
+  looking_school:[],
+  research:[],
+  admissions:[],
+  follow_media:[]
+})
+
 //获取数据
-that.$http.getall().then(res => {
-  obj.value = { ...res }
+that.$http.getall({typeId:''}).then(res => {
+  console.log(res);
+  for(let i = res.length-1;i>=0;i--){
+    if(res[i].typeId == '大轮播图'){
+      obj.home_banner.push(res[i])
+    }else if(res[i].typeId == '媒体清华'){
+      obj.medium_qinghua.push(res[i])
+    }else if(res[i].typeId == '头条新闻'){
+      obj.headLines.push(res[i])
+    }else if(res[i].typeId == '专题推荐'){
+      obj.search_suggest.push(res[i])
+    }else if(res[i].typeId == '学术研究'){
+      obj.research.push(res[i])
+    }else if(res[i].typeId == '校园看点'){
+      obj.looking_school.push(res[i])
+    }
+    obj.home_banner.splice(3,obj.home_banner.length)
+  obj.medium_qinghua.splice(4,obj.medium_qinghua.length)
+  obj.headLines.splice(3,obj.headLines.length)
+  obj.search_suggest.splice(4,obj.search_suggest.length)
+  obj.looking_school.splice(9,obj.looking_school.length)
+  obj.research.splice(5,obj.research.length)
+  }
+
+  that.$http.getAdmission().then(res=>{
+    obj.admissions = [...res]
+    that.$http.getFollowMedia().then(res=>{
+    obj.follow_media = [...res]
+    
+  })
+  })
+  // obj.value = { ...res }
+  console.log(obj);
 })
 //设置轮播图和小圆点
 let swiperindex = ref(0)
@@ -213,7 +254,7 @@ setInterval(() => {
   swiperindex.value++
   controllerindex.value++
   titleindex.value++
-  if (swiperindex.value >= obj.value.home_banner.length) {
+  if (swiperindex.value >= obj.home_banner.length) {
     swiperindex.value = 0
     controllerindex.value = 0
     titleindex.value = 0
@@ -231,7 +272,7 @@ let isnotswiper = ref(false)
 let timer = setInterval(() => {
   midswiperindex.value++
   midcontrollerindex.value++
-  if (midswiperindex.value == obj.value.headLines.length + 1) {
+  if (midswiperindex.value == obj.headLines.length + 1) {
     midcontrollerindex.value = 0
     setTimeout(() => {
       isnotswiper.value = true
@@ -251,7 +292,7 @@ function changemidswiper(index) {
     timer = setInterval(() => {
       midswiperindex.value++
       midcontrollerindex.value++
-      if (midswiperindex.value == obj.value.headLines.length + 1) {
+      if (midswiperindex.value == obj.headLines.length + 1) {
         midcontrollerindex.value = 0
         setTimeout(() => {
           isnotswiper.value = true
@@ -270,7 +311,7 @@ function pre() {
     timer = setInterval(() => {
       midswiperindex.value++
       midcontrollerindex.value++
-      if (midswiperindex.value == obj.value.headLines.length + 1) {
+      if (midswiperindex.value == obj.headLines.length + 1) {
         midcontrollerindex.value = 0
         setTimeout(() => {
           isnotswiper.value = true
@@ -285,10 +326,10 @@ function pre() {
   midswiperindex.value--
   midcontrollerindex.value--
   if (midswiperindex.value == 0) {
-    midcontrollerindex.value = obj.value.headLines.length - 1
+    midcontrollerindex.value = obj.headLines.length - 1
     setTimeout(() => {
       isnotswiper.value = true
-      midswiperindex.value = obj.value.headLines.length
+      midswiperindex.value = obj.headLines.length
     }, 1000)
     setTimeout(() => {
       isnotswiper.value = false
@@ -301,7 +342,7 @@ function next() {
     timer = setInterval(() => {
       midswiperindex.value++
       midcontrollerindex.value++
-      if (midswiperindex.value == obj.value.headLines.length + 1) {
+      if (midswiperindex.value == obj.headLines.length + 1) {
         midcontrollerindex.value = 0
         setTimeout(() => {
           isnotswiper.value = true
@@ -315,7 +356,7 @@ function next() {
   })
   midswiperindex.value++
   midcontrollerindex.value++
-  if (midswiperindex.value == obj.value.headLines.length + 1) {
+  if (midswiperindex.value == obj.headLines.length + 1) {
     midcontrollerindex.value = 0
     setTimeout(() => {
       isnotswiper.value = true
@@ -520,6 +561,7 @@ import 'swiper/css/pagination';
       img {
         display: block;
         width: 100%;
+        height:165px;
         padding: 10px 0;
       }
 
@@ -729,6 +771,7 @@ import 'swiper/css/pagination';
 
       img {
         width: 100%;
+        height:222px;
       }
 
       .title {

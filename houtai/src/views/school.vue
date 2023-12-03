@@ -62,15 +62,16 @@ const handleDelete = (index: number, row: User) => {
       that.$http.deleteNew({number: row.number}).then(res=>{
         ElMessage({
         type: 'success',
-        message: 'Delete completed',
+        message: '修改成功',
         })
+        tableData.splice(index,1)
         reload();
       })
     })
     .catch(() => {
       ElMessage({
         type: 'info',
-        message: 'Delete canceled',
+        message: '修改失败',
       })
     })
 }

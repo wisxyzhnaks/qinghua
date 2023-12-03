@@ -21,8 +21,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { getCurrentInstance, reactive, ref } from 'vue'
+import { getCurrentInstance, reactive, ref,inject } from 'vue'
 import { ElMessage } from 'element-plus'
+const reload = inject("reload");
 let that = getCurrentInstance().appContext.config.globalProperties;
 let msg = reactive({
     class: '',
@@ -59,6 +60,7 @@ function confirm() {
                 message: '添加成功',
                 type: 'success',
             })
+            window.location.reload()
         }else{
             ElMessage({
                 showClose: true,

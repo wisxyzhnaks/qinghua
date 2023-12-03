@@ -15,7 +15,7 @@
     </div>
     <ul>
       <li v-for="(item, index) in oneDate" :key="index">
-        <img :src="item.img" alt="" />
+        <img :src="'http://47.109.51.95:3000/' + item.imgpath" alt="" />
         <p>{{ item.title }}</p>
       </li>
     </ul>
@@ -71,35 +71,14 @@
 </template>
   
 <script setup>
-import { reactive } from "vue";
-
-let oneDate = reactive([
-  {
-    img: "https://www.tsinghua.edu.cn/__local/F/E9/19/1A3FC67FDC4D29C0D797A5EEF9D_AF575DA3_6289C.jpg",
-    title: "出光华记：袁运甫艺术教育思想暨于会见、马泉、张大力、袁加...",
-  },
-  {
-    img: "https://www.tsinghua.edu.cn/__local/7/7D/91/AAD25487875C6F3C046640F1975_38259D79_24282.jpg",
-    title: "2023年度唯真讲坛系列理论宣讲：关于学习理解马克思主义中国...",
-  },
-  {
-    img: "https://www.tsinghua.edu.cn/__local/7/95/68/4351D6CA27897457D6B49CFAFDE_E32384C1_9644A.jpg",
-    title: "铁笔丹华： 谢磊明、方介堪、徐无闻篆刻艺术展",
-  },
-  {
-    img: "	https://www.tsinghua.edu.cn/__local/A/DB/13/109ACC5364E1B4943B41FECCD48_468956B9_1EB4C.jpg",
-    title: "中央芭蕾舞团经典芭蕾舞剧《天鹅湖》",
-  },
-  {
-    img: "https://www.tsinghua.edu.cn/__local/2/09/E2/9D124D3A8BC194E9B81BF5C8C6B_B807AD85_1E11D.jpg",
-    title: "清华论坛第105讲暨清华五道口全球名师大讲堂:创业适配？中国...",
-  },
-  {
-    img: "https://www.tsinghua.edu.cn/__local/B/60/05/59921AF42D861D585F10A150AD6_035763D8_783F4.jpg",
-    title: "禮运东方：山东古代文明精粹",
-  },
-]);
-
+import { getCurrentInstance, ref,reactive,onMounted } from 'vue'
+let that = getCurrentInstance().appContext.config.globalProperties;
+let oneDate = ref([]);
+that.$http.getall({typeId:'校园看点'}).then(res=>{
+  oneDate.value = [...res]
+  oneDate.value.reverse()
+  oneDate.value.splice(6,oneDate.value.length)
+})
 let twoDate = reactive([
   {
     img: "https://www.tsinghua.edu.cn/__local/8/17/A4/2492FB474A7906383B460BAEFB5_0C124750_107365.jpg",

@@ -27,6 +27,7 @@
       </el-table>
       <el-pagination @current-change="handleChange" background :default-page-size="pages" layout="prev, pager, next" :total="all" />
     </div>
+    <button @click="showabc">刷新</button>
   </div>
 </template>
 
@@ -45,7 +46,10 @@ const handleEdit = (index: number, row: User) => {
   counterStore.list = row;
   counterStore.flags = true;
 }
-
+function showabc(){
+  
+  
+}
 const handleDelete = (index: number, row: User) => {
   ElMessageBox.confirm(
     '确定要删除该条新闻?',
@@ -62,6 +66,8 @@ const handleDelete = (index: number, row: User) => {
         type: 'success',
         message: 'Delete completed',
         })
+        console.log(reload);
+        tableData.splice(index,1)
         reload();
       })
     })

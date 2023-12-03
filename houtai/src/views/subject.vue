@@ -61,6 +61,7 @@ const handleDelete = (index: number, row: User) => {
         type: 'success',
         message: 'Delete completed',
         })
+        tableData.splice(index,1)
         reload();
       })
     })

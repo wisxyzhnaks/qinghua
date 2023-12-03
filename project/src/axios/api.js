@@ -1,11 +1,17 @@
 // 统一管理请求
 import requests from './axios.js';
 
-let getall = ()=>{
-	return requests.get('/getall')
+let getall = (parms)=>{
+	return requests.post('/selectHome',parms)
 }
 let getnum = ()=>{
 	return requests.get('/getStudent')										
 }
-export default{ getall,getnum
+let getAdmission = ()=>{
+	return requests.get('/getAdmission')										
+}
+let getFollowMedia = ()=>{
+	return requests.get('/getFollowMedia')										
+}
+export default{ getall,getnum,getAdmission,getFollowMedia
 }

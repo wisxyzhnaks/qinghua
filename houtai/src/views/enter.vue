@@ -67,7 +67,7 @@ const handleEdit = (index: number, row: User) => {
   form.value = row;
 }
 //修改
-const dialogFormVisible = ref(false)
+let dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
 const form = ref({
@@ -94,6 +94,7 @@ function changeNum(){
         type: 'success',
         message: '修改成功',
         })
+        dialogFormVisible.value = false
         reload();
       })
     })

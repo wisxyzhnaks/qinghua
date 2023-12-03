@@ -25,11 +25,10 @@
 import {reactive,onMounted,ref,getCurrentInstance,inject} from 'vue';
 import {useCounterStore} from '@/stores/counter'
 import { ElMessage, ElMessageBox } from 'element-plus'
-const reload = inject("reload");
+let reload = inject("reload");
 let that = getCurrentInstance().appContext.config.globalProperties;
 let counterStore = useCounterStore();
 let msg = ref({
-    
     class:'',
     title:'',
     imgpath:'',
@@ -57,7 +56,7 @@ function uploadfile(e){
 }
 
 function confirm(){
-    console.log(msg.value);
+
     ElMessageBox.confirm(
     '确定要修改该条新闻?',
     '修改',
@@ -68,11 +67,13 @@ function confirm(){
     }
   )
     .then(() => {
+       
       that.$http.changeNew(msg.value).then(res=>{
         ElMessage({
         type: 'success',
-        message: 'Delete completed',
+        message: '修改成功',
         })
+        counterStore.flags = false
         reload();
       })
     })
