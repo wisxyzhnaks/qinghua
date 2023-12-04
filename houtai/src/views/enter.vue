@@ -95,7 +95,7 @@ function changeNum(){
         message: '修改成功',
         })
         dialogFormVisible.value = false
-        reload();
+        reload()
       })
     })
     .catch(() => {

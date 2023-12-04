@@ -23,6 +23,8 @@
 <script setup lang="ts">
 import { getCurrentInstance, reactive, ref,inject } from 'vue'
 import { ElMessage } from 'element-plus'
+import {useCounterStore} from '@/stores/counter'
+let counterStore = useCounterStore();
 const reload = inject("reload");
 let that = getCurrentInstance().appContext.config.globalProperties;
 let msg = reactive({
@@ -60,7 +62,8 @@ function confirm() {
                 message: '添加成功',
                 type: 'success',
             })
-            window.location.reload()
+            useCounterStore.adds = !useCounterStore.adds
+            reload()
         }else{
             ElMessage({
                 showClose: true,

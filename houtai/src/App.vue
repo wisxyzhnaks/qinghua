@@ -42,13 +42,13 @@
         </el-breadcrumb>
       </nav>
       <main>
-        <RouterView></RouterView>
+        <RouterView v-if="isRouterActive"></RouterView>
       </main>
       
 
     </section>
-    <div class="outer" v-if="isshowadd">
-      <div class="close" @click="isshowadd = false"><img src="./assets/close.png" alt=""></div>
+    <div class="outer" v-if="counterStore.adds">
+      <div class="close" @click="counterStore.adds = false"><img src="./assets/close.png" alt=""></div>
       <addnews></addnews>
     </div>
     <div class="changes" v-if="counterStore.flags">
@@ -76,11 +76,12 @@ let key = window.sessionStorage.getItem('super')
 let router = useRouter();
 let names = ref('');
 let indexs = ref('0');
-let isshowadd = ref(false)
+// let isshowadd = ref(false)
 const isRouterActive = ref(true)
 
 function openaddnews(){
-  isshowadd.value = !isshowadd.value
+  // isshowadd.value = !isshowadd.value
+  counterStore.adds = !counterStore.adds;
 }
 
 provide('reload',()=>{

@@ -64,7 +64,6 @@ const handleDelete = (index: number, row: User) => {
         type: 'success',
         message: '修改成功',
         })
-        tableData.splice(index,1)
         reload();
       })
     })
